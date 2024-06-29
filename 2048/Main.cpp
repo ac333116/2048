@@ -10,21 +10,29 @@ using namespace std;
 
 //宽度设定
 #define Wide 4
+//记录轮次
+int n = 0;
 
 random_device rd;
 //记录新添加数字位置
 int newp[2] = { -1,-1 };
+
 //输赢判定
 int judge(int arr[Wide][Wide])
 {
-	int p = 1;
+	//p=0为输
+	int p = 0;
 	for (int i = 0; i < Wide; i++)
 	{
 		for (int j = 0; j < Wide; j++)
 		{
 			if (arr[i][j] == 0)
 			{
-				p = 0;
+				p = 1;//p=1,游戏继续
+			}
+			else if(arr[i][j] == 2048)
+			{
+				p = 2;//游戏胜利
 				break;
 			}
 		}
@@ -38,7 +46,8 @@ int judge(int arr[Wide][Wide])
 void load(int arr[Wide][Wide],int newp[2]) {
 	system("cls");
 	int i,j;
-	cout << "\n\n\t";
+	cout << "\n\n\t\t   第" << n << "轮" << endl;
+	cout << "\t";
 	for (int n = 0; n < Wide-1; n++)
 	{
 		cout << "————";
@@ -115,7 +124,7 @@ void modify(int arr[Wide][Wide], int i, int j, int dir)
 		}
 		else
 		{
-			cout << "error" << endl;
+			//cout << "error" << endl;
 		}
 	}
 	//向下
@@ -144,7 +153,7 @@ void modify(int arr[Wide][Wide], int i, int j, int dir)
 		}
 		else
 		{
-			cout << "error" << endl;
+			//cout << "error" << endl;
 		}
 	}
 	//向左
@@ -173,7 +182,7 @@ void modify(int arr[Wide][Wide], int i, int j, int dir)
 		}
 		else
 		{
-			cout << "error" << endl;
+			//cout << "error" << endl;
 		}
 	}
 	//向右
@@ -202,7 +211,7 @@ void modify(int arr[Wide][Wide], int i, int j, int dir)
 		}
 		else
 		{
-			cout << "error" << endl;
+			//cout << "error" << endl;
 		}
 	}
 }
@@ -215,15 +224,19 @@ int main()
 
 	int arr[Wide][Wide] = {};
 	addNew(arr);
-	load(arr,newp);
 
 
 	while (1)
 	{
 		//判定胜负
-		if (judge(arr))
+		if (judge(arr)==0)
 		{
-			cout << "游戏结束";
+			cout << "失败：游戏结束"<<endl;;
+			break;
+		}
+		else if (judge(arr) == 2)
+		{
+			cout << "胜利：游戏结束"<<endl;
 			break;
 		}
 
@@ -280,6 +293,7 @@ int main()
 			}
 			break;
 		}
+		n++;
 	}
 
 
